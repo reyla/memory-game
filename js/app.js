@@ -36,3 +36,29 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+ /**
+ * @description looks for cards with "open" class and creates list of open cards
+ */
+function updateOpenList() {
+  let openList = [];
+  openList.push(document.getElementsByClassName('open'));
+  console.log(openList);
+}
+
+
+ /**
+ * @description keeps track of number of moves remaining
+ */
+ function numberMoves() {
+
+ }
+
+
+$('.deck').on('click', '.card', function (){
+  var $that = $(this);
+  $that.toggleClass('open show');
+  updateOpenList();
+  numberMoves();
+})
