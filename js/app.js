@@ -33,9 +33,6 @@ function buildDeck(cardDeck) {
 
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
@@ -94,16 +91,6 @@ function trackMoves() {
 }
 
 
-function refresh() {
-  numberOfMoves = 0;
-  $('.moves').text(numberOfMoves);
-  starRating = 3;
-  $('.stars').children('li i').addClass('fa-star');
-  shuffle(cardDeck);
-  buildDeck(cardDeck);
-}
-
-
 // once the html loads, then shuffle cards and build the grid
 document.addEventListener('DOMContentLoaded', function () {
   starRating = 3;
@@ -123,5 +110,17 @@ $('.deck').on('click', '.card', function () {
   const openList = updateOpenList();
   // check how many cards are open and see if they match
   // seeIfMatch(openList);
+})
 
+
+// when user clicks the refresh button, it will rebuild the game
+$('.restart').on('click', 'i', function () {
+  numberOfMoves = 0;
+  $('.moves').text(numberOfMoves);
+  starRating = 3;
+  $('.stars').children('li i').addClass('fa-star');
+  // remove the old cards
+  $('.deck').empty();
+  shuffle(cardDeck);
+  buildDeck(cardDeck);
 })
