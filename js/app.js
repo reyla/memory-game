@@ -65,30 +65,39 @@ function seeIfMatch(openList) {
   }
 }
 
-
+/**
+* @description tracks the number of moves made and adjusts star rating
+*/
 function trackMoves() {
+  const firstStar = $('.stars li').children('i').eq(0);
+  const secondStar = $('.stars li').children('i').eq(1);
+  const thirdStar = $('.stars li').children('i').eq(2);
   numberOfMoves += 1;
-  // show user number of moves made
+  // show user the number of moves made so far
   $('.moves').text(numberOfMoves);
-  console.log("number of moves: " + numberOfMoves);
   // change star rating based on number of moves made
-  if (numberOfMoves <= 20) {
-    // starRating stays at 3
-    // $('.stars')
-  } else if (numberOfMoves > 20 && numberOfMoves <= 28) {
-    starRating = 2;
-  } else if (numberOfMoves > 28 && numberOfMoves <= 34 ) {
-    starRating = 1;
-  } else if (numberOfMoves > 34 ) {
-    starRating = 0;
+  switch (numberOfMoves) {
+    case 3:
+      starRating = 2;
+      thirdStar.toggleClass('fa-star fa-star-o');
+      break;
+    case 5:
+      starRating = 1;
+      secondStar.toggleClass('fa-star fa-star-o');
+      break;
+    case 8:
+      starRating = 0;
+      firstStar.toggleClass('fa-star fa-star-o');
+      break;
   }
-  console.log("star rating: " + starRating);
 }
 
 
 function refresh() {
   numberOfMoves = 0;
+  $('.moves').text(numberOfMoves);
   starRating = 3;
+  $('.stars').children('li i').addClass('fa-star');
 }
 
 
@@ -96,12 +105,13 @@ function refresh() {
 
 // below is everything that happens when you click on a card
 $('.deck').on('click', '.card', function () {
+  // update number of moves and star rating
   trackMoves();
   // show the contents of the card
   $(this).toggleClass('open show');
   // add the card to a list of open cards
   const openList = updateOpenList();
   // check how many cards are open and see if they match
-  seeIfMatch(openList);
+  // seeIfMatch(openList);
 
 })
