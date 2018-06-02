@@ -1,4 +1,10 @@
 /*
+ * global variables
+ */
+var numberOfMoves = 0;
+var starRating = 3;
+
+/*
  * Create a list that holds all of your cards
  */
 
@@ -42,23 +48,60 @@ function shuffle(array) {
  * @description looks for cards with "open" class and creates list of open cards
  */
 function updateOpenList() {
-  let openList = [];
-  openList.push(document.getElementsByClassName('open'));
+  // const openList = [];
+  const openList = $('.open').children('i');
+  // openList.push(document.getElementsByClassName('open'));
   console.log(openList);
+  return openList;
 }
 
 
  /**
- * @description keeps track of number of moves remaining
+ * @description if there are 2 open cards, see if they match
  */
- function numberMoves() {
+function seeIfMatch(openList) {
+  if (openList[0] == openList[1]) {
+    card.toggleClass('match open show');
+  }
+}
 
- }
+
+function trackMoves() {
+  numberOfMoves += 1;
+  // show user number of moves made
+  $('.moves').text(numberOfMoves);
+  console.log("number of moves: " + numberOfMoves);
+  // change star rating based on number of moves made
+  if (numberOfMoves <= 20) {
+    // starRating stays at 3
+    // $('.stars')
+  } else if (numberOfMoves > 20 && numberOfMoves <= 28) {
+    starRating = 2;
+  } else if (numberOfMoves > 28 && numberOfMoves <= 34 ) {
+    starRating = 1;
+  } else if (numberOfMoves > 34 ) {
+    starRating = 0;
+  }
+  console.log("star rating: " + starRating);
+}
 
 
-$('.deck').on('click', '.card', function (){
-  var $that = $(this);
-  $that.toggleClass('open show');
-  updateOpenList();
-  numberMoves();
+function refresh() {
+  numberOfMoves = 0;
+  starRating = 3;
+}
+
+
+
+
+// below is everything that happens when you click on a card
+$('.deck').on('click', '.card', function () {
+  trackMoves();
+  // show the contents of the card
+  $(this).toggleClass('open show');
+  // add the card to a list of open cards
+  const openList = updateOpenList();
+  // check how many cards are open and see if they match
+  seeIfMatch(openList);
+
 })
