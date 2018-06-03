@@ -5,6 +5,7 @@ var numberOfMoves = 0;
 var starRating = 3;
 var cardDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"]
 var openList = [];
+var $that = "";
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -61,14 +62,16 @@ function trackMoves() {
 }
 
 
-/*
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+/**
+* @description gets the icon html for currently open card
  */
+function findIcon() {
+  const iconHTML = $that.html();
+  return iconHTML;
+}
 
-/*
+
+/**
 * @description if there's a match, lock the cards into open position
  */
 function lockCards() {
@@ -76,7 +79,7 @@ function lockCards() {
 }
 
 
-/*
+/**
 * @description if there's no match, turn the cards back over
  */
 function clearCards() {
@@ -84,12 +87,12 @@ function clearCards() {
 }
 
 
-/*
+/**
  * @description if there are 2 open cards, see if they match
  */
 function seeIfMatch(openList) {
-  let cardA = openList[0].innerHTML;
-  let cardB = openList[1].innerHTML;
+  let cardA = openList[0];
+  let cardB = openList[1];
   if (cardA === cardB) {
     lockCards();
   } else {
@@ -97,6 +100,7 @@ function seeIfMatch(openList) {
   }
   // empty the list
   openList = [];
+  console.log("is this empty: " + openList);
 }
 
 
@@ -104,9 +108,8 @@ function seeIfMatch(openList) {
  * @description looks for cards with "open" class and tries to match them
 */
 function updateOpenList() {
-  const openCards = $('.deck').find('.open').children('i');
-  openList.push(openCards);
-  console.log(openList);
+  const iconOpen = findIcon();
+  openList.push(iconOpen);
   if (openList.length === 2) {
     // let the card show contents briefly before determining match
     setTimeout(seeIfMatch, 800, openList);
@@ -140,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // below is everything that happens when you click on a card
 $('.deck').on('click', '.card', function () {
+  $that = $(this);
   // update number of moves and star rating
   trackMoves();
   // show the contents of the card
