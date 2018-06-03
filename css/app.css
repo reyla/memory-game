@@ -107,3 +107,45 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+
+.modal {
+    /* display: none; */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.modal-content {
+    background-color: #1a936f;
+    margin: 3em auto;
+    padding: 10px;
+    border: 1px solid #f7eaf3;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.8);
+}
+
+
+.replay {
+    background-color: #f7eaf3;
+    font-size: 1em;
+    font-weight: 400;
+    padding: 1em;
+    border: 1px solid #f7eaf3;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.replay:hover,
+.replay:focus {
+    cursor: pointer;
+    background-color: #ff6f59;
+    color: #f7eaf3;
+}
