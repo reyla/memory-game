@@ -6,6 +6,7 @@ var starRating = 3;
 var cardDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"]
 var openList = [];
 var $that = "";
+var restart = $('.restart');
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -35,12 +36,31 @@ function buildDeck(cardDeck) {
 
 
 /**
+* @description updates the star icons on gameboard and also in modal
+* @param input the star rating number (0-3)
+*/
+function starUpdate(num) {
+  switch (num) {
+    case 3:
+      break;
+    case 2:
+      $('.stars li').children('i').eq(2).toggleClass('fa-star fa-star-o');
+      break;
+    case 1:
+      $('.stars li').children('i').eq(1).toggleClass('fa-star fa-star-o');
+      break;
+    case 0:
+      $('.stars li').children('i').eq(0).toggleClass('fa-star fa-star-o');
+      break;
+  }
+}
+
+
+/**
 * @description tracks the number of moves made and adjusts star rating
 */
 function trackMoves() {
-  const firstStar = $('.stars li').children('i').eq(0);
-  const secondStar = $('.stars li').children('i').eq(1);
-  const thirdStar = $('.stars li').children('i').eq(2);
+  // increment move counter
   numberOfMoves += 1;
   // show user the number of moves made so far
   $('.moves').text(numberOfMoves);
@@ -48,15 +68,15 @@ function trackMoves() {
   switch (numberOfMoves) {
     case 20:
       starRating = 2;
-      thirdStar.toggleClass('fa-star fa-star-o');
+      starUpdate(2);
       break;
     case 28:
       starRating = 1;
-      secondStar.toggleClass('fa-star fa-star-o');
+      starUpdate(1);
       break;
     case 34:
       starRating = 0;
-      firstStar.toggleClass('fa-star fa-star-o');
+      starUpdate(0);
       break;
   }
 }
@@ -91,8 +111,8 @@ function clearCards() {
  * @description if there are 2 open cards, see if they match
  */
 function seeIfMatch(openList) {
-  let cardA = openList[0];
-  let cardB = openList[1];
+  const cardA = openList[0];
+  const cardB = openList[1];
   if (cardA === cardB) {
     lockCards();
   } else {
@@ -100,7 +120,6 @@ function seeIfMatch(openList) {
   }
   // empty the list
   openList = [];
-  console.log("is this empty: " + openList);
 }
 
 
@@ -108,13 +127,54 @@ function seeIfMatch(openList) {
  * @description looks for cards with "open" class and tries to match them
 */
 function updateOpenList() {
-  const iconOpen = findIcon();
+  let iconOpen = findIcon();
   openList.push(iconOpen);
+  console.log(openList);
   if (openList.length === 2) {
     // let the card show contents briefly before determining match
     setTimeout(seeIfMatch, 800, openList);
   } else {
     return openList;
+  }
+}
+
+
+/**
+ * @description restarts the game, via refresh icon or replay button in modal
+*/
+function reset() {
+  // reset number of moves and star rating
+  numberOfMoves = 0;
+  $('.moves').text(numberOfMoves);
+  starRating = 3;
+  $('.stars').children('li i').addClass('fa-star');
+  // remove the old cards, shuffle, and rebuild the card deck
+  $('.deck').empty();
+  shuffle(cardDeck);
+  buildDeck(cardDeck);
+}
+
+/**
+ * @description when user wins the game, the modal pops up with user stats
+*/
+function winModal() {
+  const modal = $('.modal');
+  const winTime = $('.winTime');
+  const winMoves = $('.winMoves');
+  const replayButton = $('.replay');
+  modal.toggleClass('hide');
+  winMoves.text(numberOfMoves);
+  // replay button lets you restart the game
+  replayButton.on('click', 'button', function (event) {
+    event.preventDefault();
+    modal.style.display = "none";
+    reset();
+  })
+  // if the user clicks outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
   }
 }
 
@@ -127,7 +187,7 @@ function checkIfWinner() {
   const totalCards = [];
   totalCards.push(matchedCards);
   if (totalCards.length == 16) {
-    alert("You've won!");
+    winModal();
   }
 }
 
@@ -138,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
   numberOfMoves = 0;
   shuffle(cardDeck);
   buildDeck(cardDeck);
+  // winModal();
 })
 
 
@@ -154,15 +215,11 @@ $('.deck').on('click', '.card', function () {
 })
 
 
-// when user clicks the refresh button, it will rebuild the game
+
+
+
+
+// user can click refresh icon to restart the game
 $('.restart').on('click', 'i', function () {
-  // reset number of moves and star rating
-  numberOfMoves = 0;
-  $('.moves').text(numberOfMoves);
-  starRating = 3;
-  $('.stars').children('li i').addClass('fa-star');
-  // remove the old cards, shuffle, and rebuild the card deck
-  $('.deck').empty();
-  shuffle(cardDeck);
-  buildDeck(cardDeck);
+  reset();
 })
