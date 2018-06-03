@@ -110,7 +110,7 @@ h1 {
 
 
 .modal {
-    /* display: none; */
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -132,6 +132,11 @@ h1 {
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.8);
 }
 
+.winTime,
+.winMoves,
+.winRating {
+    font-weight: 600;
+}
 
 .replay {
     background-color: #f7eaf3;
