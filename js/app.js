@@ -4,6 +4,7 @@
 var numberOfMoves = 0;
 var starRating = 3;
 var cardDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"]
+var openList = [];
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -32,37 +33,6 @@ function buildDeck(cardDeck) {
 }
 
 
-/*
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-
- /**
- * @description looks for cards with "open" class and creates list of open cards
- */
-function updateOpenList() {
-  // const openList = [];
-  const openList = $('.open').children('i');
-  // openList.push(document.getElementsByClassName('open'));
-  console.log(openList);
-  return openList;
-}
-
-
- /**
- * @description if there are 2 open cards, see if they match
- */
-function seeIfMatch(openList) {
-  if (openList[0] == openList[1]) {
-    card.toggleClass('match open show');
-  }
-}
-
-
 /**
 * @description tracks the number of moves made and adjusts star rating
 */
@@ -75,18 +45,86 @@ function trackMoves() {
   $('.moves').text(numberOfMoves);
   // change star rating based on number of moves made
   switch (numberOfMoves) {
-    case 3:
+    case 20:
       starRating = 2;
       thirdStar.toggleClass('fa-star fa-star-o');
       break;
-    case 5:
+    case 28:
       starRating = 1;
       secondStar.toggleClass('fa-star fa-star-o');
       break;
-    case 8:
+    case 34:
       starRating = 0;
       firstStar.toggleClass('fa-star fa-star-o');
       break;
+  }
+}
+
+
+/*
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
+
+/*
+* @description if there's a match, lock the cards into open position
+ */
+function lockCards() {
+  $('.deck').find('.open').toggleClass('match open show');
+}
+
+
+/*
+* @description if there's no match, turn the cards back over
+ */
+function clearCards() {
+  $('.deck').find('.open').toggleClass('open show');
+}
+
+
+/*
+ * @description if there are 2 open cards, see if they match
+ */
+function seeIfMatch(openList) {
+  let cardA = openList[0].innerHTML;
+  let cardB = openList[1].innerHTML;
+  if (cardA === cardB) {
+    lockCards();
+  } else {
+    clearCards();
+  }
+  // empty the list
+  openList = [];
+}
+
+
+/**
+ * @description looks for cards with "open" class and tries to match them
+*/
+function updateOpenList() {
+  const openCards = $('.deck').find('.open').children('i');
+  openList.push(openCards);
+  console.log(openList);
+  if (openList.length === 2) {
+    // let the card show contents briefly before determining match
+    setTimeout(seeIfMatch, 800, openList);
+  } else {
+    return openList;
+  }
+}
+
+
+/**
+* @description checks if all the cards are matching
+*/
+function checkIfWinner() {
+  const matchedCards = $('.deck').find('.match');
+  const totalCards = [];
+  totalCards.push(matchedCards);
+  if (totalCards.length == 16) {
+    alert("You've won!");
   }
 }
 
@@ -107,19 +145,19 @@ $('.deck').on('click', '.card', function () {
   // show the contents of the card
   $(this).toggleClass('open show');
   // add the card to a list of open cards
-  const openList = updateOpenList();
-  // check how many cards are open and see if they match
-  // seeIfMatch(openList);
+  updateOpenList();
+  checkIfWinner();
 })
 
 
 // when user clicks the refresh button, it will rebuild the game
 $('.restart').on('click', 'i', function () {
+  // reset number of moves and star rating
   numberOfMoves = 0;
   $('.moves').text(numberOfMoves);
   starRating = 3;
   $('.stars').children('li i').addClass('fa-star');
-  // remove the old cards
+  // remove the old cards, shuffle, and rebuild the card deck
   $('.deck').empty();
   shuffle(cardDeck);
   buildDeck(cardDeck);
