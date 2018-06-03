@@ -39,6 +39,7 @@ function buildDeck(cardDeck) {
 
 /**
 * @description these functions control the clock
+* code based on Chris Neal's tutorial here: https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work
 */
 
 function startTimer() {
@@ -138,9 +139,9 @@ function clearCards() {
 /**
  * @description if there are 2 open cards, see if they match
  */
-function seeIfMatch(openList) {
-  const cardA = openList[0];
-  const cardB = openList[1];
+function seeIfMatch(arr) {
+  const cardA = arr[0];
+  const cardB = arr[1];
   if (cardA === cardB) {
     lockCards();
   } else {
