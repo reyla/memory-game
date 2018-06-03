@@ -1,12 +1,14 @@
 /*
  * global variables
  */
+var timer;
+var sec = 0;
+var min = 0;
 var numberOfMoves = 0;
 var starRating = 3;
 var cardDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"]
 var openList = [];
 var $that = "";
-var restart = $('.restart');
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -32,6 +34,32 @@ function buildDeck(cardDeck) {
   for (let i = 0; i < deckSize; i++) {
     $('.deck').append('<li class="card"><i class="fa ' + cardDeck[i] + '"></i></li>');
   }
+}
+
+
+/**
+* @description these functions control the clock
+*/
+
+function startTimer() {
+  timer = setInterval(timer, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  sec = 0;
+  min = 0;
+}
+
+function timer() {
+  sec++;
+  if (sec < 10) {
+    sec = `0${sec}`;
+  } if (sec >= 60) {
+    min++;
+    sec = "00";
+  }
+  $('.clock').html("0" + min + ":" + sec);
 }
 
 
@@ -143,16 +171,25 @@ function updateOpenList() {
  * @description restarts the game, via refresh icon or replay button in modal
 */
 function reset() {
-  // reset number of moves and star rating
+  // reset timer
+  stopTimer();
+  $('.clock').html("0" + min + ":0" + sec);
+  // reset number of moves
   numberOfMoves = 0;
   $('.moves').text(numberOfMoves);
+  // reset star rating
   starRating = 3;
   $('.stars').children('li i').addClass('fa-star');
   // remove the old cards, shuffle, and rebuild the card deck
   $('.deck').empty();
   shuffle(cardDeck);
   buildDeck(cardDeck);
+  // clear openList in case something was in there
+  openList = []
+  // restart the clock;
+  startTimer();
 }
+
 
 /**
  * @description when user wins the game, the modal pops up with user stats
@@ -162,7 +199,9 @@ function winModal() {
   const winTime = $('.winTime');
   const winMoves = $('.winMoves');
   const replayButton = $('.replay');
+  const clockStatus = $('.clock').html();
   modal.toggleClass('hide');
+  winTime.html(clockStatus);
   winMoves.text(numberOfMoves);
   // replay button lets you restart the game
   replayButton.on('click', 'button', function (event) {
@@ -187,6 +226,7 @@ function checkIfWinner() {
   const totalCards = [];
   totalCards.push(matchedCards);
   if (totalCards.length == 16) {
+    stopTimer();
     winModal();
   }
 }
@@ -194,10 +234,10 @@ function checkIfWinner() {
 
 // once the html loads, then shuffle cards and build the grid
 document.addEventListener('DOMContentLoaded', function () {
-  starRating = 3;
-  numberOfMoves = 0;
   shuffle(cardDeck);
   buildDeck(cardDeck);
+  // wait 2 seconds before starting the clock
+  setTimeout(startTimer, 2000);
   // winModal();
 })
 
@@ -213,10 +253,6 @@ $('.deck').on('click', '.card', function () {
   updateOpenList();
   checkIfWinner();
 })
-
-
-
-
 
 
 // user can click refresh icon to restart the game
