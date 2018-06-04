@@ -1,7 +1,7 @@
 /*
  * global variables
  */
-var timer;
+var clock;
 var sec = 0;
 var min = 0;
 var numberOfMoves = 0;
@@ -43,11 +43,11 @@ function buildDeck(cardDeck) {
 */
 
 function startTimer() {
-  timer = setInterval(timer, 1000);
+  clock = setInterval(timer, 1000);
 }
 
 function stopTimer() {
-  clearInterval(timer);
+  clearInterval(clock);
   sec = 0;
   min = 0;
 }
