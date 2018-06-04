@@ -28,7 +28,7 @@ function shuffle(array) {
 
 /**
 * @description builds the html for the deck grid and assigns card types
-* @param input an array of card types
+* @param {array} cardDeck - list of card types
 */
 function buildDeck(cardDeck) {
   const deckSize = cardDeck.length;
@@ -67,7 +67,7 @@ function timer() {
 
 /**
 * @description updates the star icons on gameboard and also in modal
-* @param input the star rating number (0-3)
+* @param {int} num - the star rating (0-3)
 */
 function starUpdate(num) {
   switch (num) {
@@ -93,7 +93,7 @@ function starUpdate(num) {
 function trackMoves() {
   // increment move counter
   numberOfMoves += 1;
-  // show user the number of moves made so far
+  // update html with the number of moves made so far
   $('.moves').text(numberOfMoves);
   // change star rating based on number of moves made
   switch (numberOfMoves) {
@@ -122,7 +122,7 @@ function lockCards() {
 
 
 /**
-* @description if there's no match, turn the cards back over
+* @description if there's no match, flip the cards back over
  */
 function clearCards() {
   $('.deck').find('.open').toggleClass('open show');
@@ -130,24 +130,27 @@ function clearCards() {
 
 
 /**
- * @description if there are 2 open cards, see if they match
+ * @description check to see if cards match
+ * @param {array} arr - list of open cards
  */
 function seeIfMatch(arr) {
-  const cardA = arr[0];
-  const cardB = arr[1];
-  if (cardA === cardB) {
+  if (arr[0] === arr[1]) {
+    // add to the win condition
     matchedDeck += 2;
+    // set short delay before changing card color
     setTimeout(lockCards, 400);
   } else {
+    // set short delay before flipping cards back over
     setTimeout(clearCards, 800);
   }
-  // empty the list
+  // empty the list of open cards
   openList = [];
 }
 
 
 /**
- * @description looks for cards with "open" class and tries to match them
+ * @description adds current card to list of open cards
+ * @returns {array} openList - list of open cards
 */
 function updateOpenList() {
   const iconHTML = $that.html();
@@ -181,8 +184,8 @@ function reset() {
   buildDeck(cardDeck);
   // clear openList in case something was in there
   openList = []
-  // restart the clock;
-  startTimer();
+  // restart the clock after 2 second delay
+  setTimeout(startTimer, 2000);
 }
 
 
@@ -201,14 +204,14 @@ function winModal() {
   winMoves.text(numberOfMoves);
   // replay button lets you restart the game
   $('.replay').on('click', function () {
-    modal.css("display", "none");
+    modal.toggleClass('hide');
     reset();
   })
 }
 
 
 /**
-* @description checks if all the cards are matching
+* @description checks if all the cards are matching and triggers win function
 */
 function checkIfWinner() {
   if (matchedDeck === 16) {
@@ -218,13 +221,12 @@ function checkIfWinner() {
 }
 
 
-// once the html loads, then shuffle cards and build the grid
+// once the html loads, shuffle the cards and build the grid
 document.addEventListener('DOMContentLoaded', function () {
   shuffle(cardDeck);
   buildDeck(cardDeck);
   // wait 2 seconds before starting the clock
   setTimeout(startTimer, 2000);
-  // winModal();
 })
 
 
@@ -237,6 +239,7 @@ $('.deck').on('click', '.card', function () {
   $(this).toggleClass('open show');
   // add the card to a list of open cards
   updateOpenList();
+  // check win condition
   checkIfWinner();
 })
 

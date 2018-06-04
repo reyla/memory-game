@@ -117,6 +117,9 @@ h1 {
     cursor: pointer;
 }
 
+/*
+ * Styles for the Modal pop-up
+ */
 
 .modal {
     display: flex;
