@@ -8,6 +8,7 @@ var numberOfMoves = 0;
 var starRating = 3;
 var cardDeck = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"]
 var openList = [];
+var matchedDeck = 0;
 var $that = "";
 
 
@@ -135,6 +136,7 @@ function seeIfMatch(arr) {
   const cardA = arr[0];
   const cardB = arr[1];
   if (cardA === cardB) {
+    matchedDeck += 2;
     setTimeout(lockCards, 400);
   } else {
     setTimeout(clearCards, 800);
@@ -171,6 +173,8 @@ function reset() {
   // reset star rating
   starRating = 3;
   starUpdate(3);
+  // reset Win condition
+  matchedDeck = 0;
   // remove the old cards, shuffle, and rebuild the card deck
   $('.deck').empty();
   shuffle(cardDeck);
@@ -213,10 +217,8 @@ function winModal() {
 * @description checks if all the cards are matching
 */
 function checkIfWinner() {
-  //const matchedCards = $('.deck').find('.match');
-  let matchedCards = document.getElementsByClassName('match');
-  console.log(matchedCards);
-  if (matchedCards.length === 16) {
+  console.log(matchedDeck);
+  if (matchedDeck === 16) {
     console.log("it made it!");
     stopTimer();
     winModal();
