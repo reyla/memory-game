@@ -200,8 +200,8 @@ function winModal() {
   winTime.html(clockStatus);
   winMoves.text(numberOfMoves);
   // replay button lets you restart the game
-  $('.replay').on('click', 'button', function () {
-    modal.style.display = "none";
+  $('.replay').on('click', function () {
+    modal.css("display", "none");
     reset();
   })
 }
