@@ -101,11 +101,11 @@ function trackMoves() {
       starRating = 2;
       starUpdate(2);
       break;
-    case 30:
+    case 32:
       starRating = 1;
       starUpdate(1);
       break;
-    case 36:
+    case 40:
       starRating = 0;
       starUpdate(0);
       break;
@@ -193,23 +193,17 @@ function winModal() {
   const modal = $('.modal');
   const winTime = $('.winTime');
   const winMoves = $('.winMoves');
-  const replayButton = $('.replay');
+  const winRating = $('.winRating');
   const clockStatus = $('.clock').html();
   modal.toggleClass('hide');
+  winRating.text(starRating);
   winTime.html(clockStatus);
   winMoves.text(numberOfMoves);
   // replay button lets you restart the game
-  replayButton.on('click', 'button', function (event) {
-    event.preventDefault();
+  $('.replay').on('click', 'button', function () {
     modal.style.display = "none";
     reset();
   })
-  // if the user clicks outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-  }
 }
 
 
@@ -217,9 +211,7 @@ function winModal() {
 * @description checks if all the cards are matching
 */
 function checkIfWinner() {
-  console.log(matchedDeck);
   if (matchedDeck === 16) {
-    console.log("it made it!");
     stopTimer();
     winModal();
   }
