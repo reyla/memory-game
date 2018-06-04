@@ -71,6 +71,7 @@ function timer() {
 function starUpdate(num) {
   switch (num) {
     case 3:
+      $('.stars').html('<li><i class="fa fa-star"></i></li>&nbsp;<li><i class="fa fa-star"></i></li>&nbsp;<li><i class="fa fa-star"></i></li>');
       break;
     case 2:
       $('.stars li').children('i').eq(2).toggleClass('fa-star fa-star-o');
@@ -95,28 +96,19 @@ function trackMoves() {
   $('.moves').text(numberOfMoves);
   // change star rating based on number of moves made
   switch (numberOfMoves) {
-    case 20:
+    case 24:
       starRating = 2;
       starUpdate(2);
       break;
-    case 28:
+    case 30:
       starRating = 1;
       starUpdate(1);
       break;
-    case 34:
+    case 36:
       starRating = 0;
       starUpdate(0);
       break;
   }
-}
-
-
-/**
-* @description gets the icon html for currently open card
- */
-function findIcon() {
-  const iconHTML = $that.html();
-  return iconHTML;
 }
 
 
@@ -143,9 +135,9 @@ function seeIfMatch(arr) {
   const cardA = arr[0];
   const cardB = arr[1];
   if (cardA === cardB) {
-    lockCards();
+    setTimeout(lockCards, 400);
   } else {
-    clearCards();
+    setTimeout(clearCards, 800);
   }
   // empty the list
   openList = [];
@@ -156,12 +148,10 @@ function seeIfMatch(arr) {
  * @description looks for cards with "open" class and tries to match them
 */
 function updateOpenList() {
-  let iconOpen = findIcon();
-  openList.push(iconOpen);
-  console.log(openList);
+  const iconHTML = $that.html();
+  openList.push(iconHTML);
   if (openList.length === 2) {
-    // let the card show contents briefly before determining match
-    setTimeout(seeIfMatch, 800, openList);
+    seeIfMatch(openList);
   } else {
     return openList;
   }
@@ -180,7 +170,7 @@ function reset() {
   $('.moves').text(numberOfMoves);
   // reset star rating
   starRating = 3;
-  $('.stars').children('li i').addClass('fa-star');
+  starUpdate(3);
   // remove the old cards, shuffle, and rebuild the card deck
   $('.deck').empty();
   shuffle(cardDeck);
@@ -223,10 +213,11 @@ function winModal() {
 * @description checks if all the cards are matching
 */
 function checkIfWinner() {
-  const matchedCards = $('.deck').find('.match');
-  const totalCards = [];
-  totalCards.push(matchedCards);
-  if (totalCards.length == 16) {
+  //const matchedCards = $('.deck').find('.match');
+  let matchedCards = document.getElementsByClassName('match');
+  console.log(matchedCards);
+  if (matchedCards.length === 16) {
+    console.log("it made it!");
     stopTimer();
     winModal();
   }
