@@ -1,3 +1,4 @@
+
 /*
  * global variables
  */
@@ -216,7 +217,8 @@ function winModal() {
 function checkIfWinner() {
   if (matchedDeck === 16) {
     stopTimer();
-    winModal();
+    // delay popup modal
+    setTimeout(winModal, 800);
   }
 }
 
