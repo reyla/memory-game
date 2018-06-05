@@ -164,6 +164,16 @@ function updateOpenList() {
 
 
 /**
+* @description reactivates the first click on a card to start the timer
+*/
+function letTimerRestart() {
+  $('.deck').one('click', '.card', function() {
+    startTimer();
+  });
+}
+
+
+/**
  * @description restarts the game, via refresh icon or replay button in modal
 */
 function reset() {
@@ -183,9 +193,9 @@ function reset() {
   shuffle(cardDeck);
   buildDeck(cardDeck);
   // clear openList in case something was in there
-  openList = []
-  // restart the clock after 2 second delay
-  setTimeout(startTimer, 2000);
+  openList = [];
+  // reactivate the first card clicked to start the timer
+  letTimerRestart();
 }
 
 
@@ -226,8 +236,7 @@ function checkIfWinner() {
 document.addEventListener('DOMContentLoaded', function () {
   shuffle(cardDeck);
   buildDeck(cardDeck);
-  // wait 2 seconds before starting the clock
-  setTimeout(startTimer, 2000);
+  letTimerRestart();
 })
 
 
