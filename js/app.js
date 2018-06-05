@@ -1,3 +1,9 @@
+/* Issues
+* user can click on a card twice to trigger a "match"
+* user can open 3 cards at a time
+* playing a 3rd round messes up the timer
+*/
+
 
 /*
  * global variables
@@ -68,7 +74,7 @@ function timer() {
 
 /**
 * @description updates the star icons on gameboard and also in modal
-* @param {int} num - the star rating (0-3)
+* @param {int} num - the star rating (1-3)
 */
 function starUpdate(num) {
   switch (num) {
@@ -80,9 +86,6 @@ function starUpdate(num) {
       break;
     case 1:
       $('.stars li').children('i').eq(1).toggleClass('fa-star fa-star-o');
-      break;
-    case 0:
-      $('.stars li').children('i').eq(0).toggleClass('fa-star fa-star-o');
       break;
   }
 }
@@ -105,10 +108,6 @@ function trackMoves() {
     case 32:
       starRating = 1;
       starUpdate(1);
-      break;
-    case 40:
-      starRating = 0;
-      starUpdate(0);
       break;
   }
 }
