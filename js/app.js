@@ -1,10 +1,3 @@
-/* Issues
-* user can click on a card twice to trigger a "match"
-* user can open 3 cards at a time
-* playing a 3rd round messes up the timer
-*/
-
-
 /*
  * global variables
  */
