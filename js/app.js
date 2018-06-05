@@ -92,11 +92,9 @@ function starUpdate(num) {
 
 
 /**
-* @description tracks the number of moves made and adjusts star rating
+* @description shows user the number of moves made and updates star rating
 */
 function trackMoves() {
-  // increment move counter
-  numberOfMoves += 1;
   // update html with the number of moves made so far
   $('.moves').text(numberOfMoves);
   // change star rating based on number of moves made
@@ -149,13 +147,18 @@ function seeIfMatch(arr) {
 
 
 /**
- * @description adds current card to list of open cards
+ * @description adds current card to list of open cards and triggers counter functions
  * @returns {array} openList - list of open cards
 */
 function updateOpenList() {
   const iconHTML = $that.html();
   openList.push(iconHTML);
   if (openList.length === 2) {
+    // increment move counter
+    numberOfMoves += 1;
+    // update number of moves and star rating
+    trackMoves();
+    // check if the cards match
     seeIfMatch(openList);
   } else {
     return openList;
@@ -243,8 +246,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // below is everything that happens when you click on a card
 $('.deck').on('click', '.card', function () {
   $that = $(this);
-  // update number of moves and star rating
-  trackMoves();
   // show the contents of the card
   $(this).toggleClass('open show');
   // add the card to a list of open cards
