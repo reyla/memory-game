@@ -35,6 +35,21 @@ h1 {
     font-weight: 600;
 }
 
+h3 {
+    font-size: 2em;
+    font-weight: 400;
+}
+
+a {
+    color: #ff6f59;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
 /*
  * Styles for the deck of cards
  */
@@ -84,6 +99,15 @@ h1 {
 }
 
 /*
+ * Styles for the Overview
+ */
+
+.overview {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/*
  * Styles for the Score Panel
  */
 
@@ -97,7 +121,7 @@ h1 {
     margin: 0;
     padding: 0;
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin: 0 10px 0 0;
 }
 
 .stars li {
@@ -118,6 +142,24 @@ h1 {
 }
 
 /*
+ * Styles for the Instructions
+ */
+
+.instructions h3 {
+  text-align: center;
+}
+
+.instructions-list li {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.back-to-top {
+    float: right;
+    cursor: pointer;
+}
+
+ /*
  * Styles for the Modal pop-up
  */
 
@@ -169,4 +211,15 @@ h1 {
 
 .hide {
     display: none;
+}
+
+
+/*
+* Styles for the Footer
+*/
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
 }

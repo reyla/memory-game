@@ -14,6 +14,11 @@
             <h1>Memory Game</h1>
         </header>
 
+        <section class="overview">
+          <p>This is a simple card matching game. Click on a card to start the game.<br/>
+            <a href="#instructions">View instructions below</a>.</p>
+        </section>
+
         <section class="score-panel">
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
@@ -33,6 +38,22 @@
         <ul class="deck">
         </ul>
 
+        <section class="instructions">
+          <a name="instructions"></a>
+          <h3>How To Play</h3>
+            <ol class="instructions-list">
+              <li>The goal is to find cards with matching icons and match all of the cards in the deck.</li>
+              <li>Click on the card to open and view the icon for that card. The timer starts once you click on the first card of a game.</li>
+              <li>You can open two cards at a time. If the two cards match, they will remain open. Otherwise, they will flip back over.</li>
+              <li>Each pair of opened cards counts as one move. Your star rating will decrease with the number of moves taken.</li>
+              <li>Once all cards are matched, the game is won. You will see a pop-up that shows your Time, Star Rating, and Number of Moves made.</li>
+              <li>You can use the "Play again" button on the pop-up to start a new game, or you can use the refresh icon on the game board.</li>
+            </ol>
+            <div class="back-to-top">
+              <i class="fa fa-arrow-up" title="Back to top"></i>
+            </div>
+        </section>
+
         <div class="modal hide">
           <div class="modal-content">
             <h3>You win!</h3>
@@ -42,6 +63,11 @@
             <button class="replay">Play again</button>
           </div>
         </div>
+
+        <footer class="footer">
+          <a href="http://github.com/reyla/memory-game">View on Github</a>
+          <p class="copyright">Copyright &copy;2018 Kate Speed</p>
+        </footer>
 
     </div>
 
