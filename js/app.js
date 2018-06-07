@@ -92,11 +92,11 @@ function trackMoves() {
   $('.moves').text(numberOfMoves);
   // change star rating based on number of moves made
   switch (numberOfMoves) {
-    case 24:
+    case 12:
       starRating = 2;
       starUpdate(2);
       break;
-    case 32:
+    case 18:
       starRating = 1;
       starUpdate(1);
       break;
@@ -163,9 +163,7 @@ function updateOpenList() {
 * @description reactivates the first click on a card to start the timer
 */
 function letTimerRestart() {
-  $('.deck').one('click', '.card', function() {
-    startTimer();
-  });
+  $('.deck').one('click', '.card', startTimer);
 }
 
 
@@ -199,20 +197,12 @@ function reset() {
  * @description when user wins the game, the modal pops up with user stats
 */
 function winModal() {
-  const modal = $('.modal');
-  const winTime = $('.winTime');
-  const winMoves = $('.winMoves');
-  const winRating = $('.winRating');
   const clockStatus = $('.clock').html();
-  modal.toggleClass('hide');
-  winRating.text(starRating);
-  winTime.html(clockStatus);
-  winMoves.text(numberOfMoves);
-  // replay button lets you restart the game
-  $('.replay').on('click', function () {
-    modal.toggleClass('hide');
-    reset();
-  })
+  $('.modal').toggleClass('hide');
+  // show the stats for the game
+  $('.winRating').text(starRating);
+  $('.winTime').html(clockStatus);
+  $('.winMoves').text(numberOfMoves);
 }
 
 
@@ -228,6 +218,20 @@ function checkIfWinner() {
 }
 
 
+/**
+* @description when card is clicked on, it opens and triggers other functions
+*/
+function cardClicked() {
+  $that = $(this);
+  // show the contents of the card
+  $that.toggleClass('open show');
+  // add the card to a list of open cards
+  updateOpenList();
+  // check win condition
+  checkIfWinner();
+}
+
+
 // once the html loads, shuffle the cards and build the grid
 document.addEventListener('DOMContentLoaded', function () {
   shuffle(cardDeck);
@@ -236,20 +240,17 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 
-// below is everything that happens when you click on a card
-$('.deck').on('click', '.card', function () {
-  $that = $(this);
-  // show the contents of the card
-  $(this).toggleClass('open show');
-  // add the card to a list of open cards
-  updateOpenList();
-  // check win condition
-  checkIfWinner();
-})
+// when a user clicks on a card, it triggers the game mechanics
+$('.deck').on('click', '.card', cardClicked);
 
 
 // user can click refresh icon to restart the game
-$('.restart').on('click', 'i', function () {
+$('.restart').on('click', 'i', reset);
+
+
+// user can click "play again" button in modal to restart the game
+$('.replay').on('click', function () {
+  $('.modal').toggleClass('hide');
   reset();
 })
 
@@ -258,6 +259,6 @@ $('.restart').on('click', 'i', function () {
 * @description arrow icon takes user back to top of page
 */
 $('.back-to-top').on('click', 'i', function () {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 })
