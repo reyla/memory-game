@@ -113,10 +113,10 @@ function lockCards() {
 
 
 /**
- * @description if there's no match, flip the cards back over
+ * @description if there's no match, flip the cards back over and reenable clicks
  */
 function clearCards() {
-  $('.deck').find('.open').toggleClass('open show');
+  $('.deck').find('.open').toggleClass('open show disabled');
 }
 
 
@@ -223,8 +223,8 @@ function checkIfWinner() {
  */
 function cardClicked() {
   $that = $(this);
-  // show the contents of the card
-  $that.toggleClass('open show');
+  // show the contents of the card and disable clicks temporarily
+  $that.toggleClass('open show disabled');
   // add the card to a list of open cards
   updateOpenList();
   // check win condition

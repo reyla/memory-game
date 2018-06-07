@@ -98,6 +98,10 @@ a:hover {
     font-size: 33px;
 }
 
+.disabled {
+    pointer-events: none;
+}
+
 /*
  * Styles for the Overview
  */
