@@ -27,9 +27,9 @@ function shuffle(array) {
 
 
 /**
-* @description builds the html for the deck grid and assigns card types
-* @param {array} cardDeck - list of card types
-*/
+ * @description builds the html for the deck grid and assigns card types
+ * @param {array} cardDeck - list of card types
+ */
 function buildDeck(cardDeck) {
   const deckSize = cardDeck.length;
   for (let i = 0; i < deckSize; i++) {
@@ -39,9 +39,9 @@ function buildDeck(cardDeck) {
 
 
 /**
-* @description these functions control the clock
-* code based on Chris Neal's tutorial here: https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work
-*/
+ * @description these functions control the clock
+ * code based on Chris Neal's tutorial here: https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work
+ */
 
 function startTimer() {
   clock = setInterval(timer, 1000);
@@ -66,9 +66,9 @@ function timer() {
 
 
 /**
-* @description updates the star icons on gameboard and also in modal
-* @param {int} num - the star rating (1-3)
-*/
+ * @description updates the star icons on gameboard and also in modal
+ * @param {int} num - the star rating (1-3)
+ */
 function starUpdate(num) {
   switch (num) {
     case 3:
@@ -85,8 +85,8 @@ function starUpdate(num) {
 
 
 /**
-* @description shows user the number of moves made and updates star rating
-*/
+ * @description shows user the number of moves made and updates star rating
+ */
 function trackMoves() {
   // update html with the number of moves made so far
   $('.moves').text(numberOfMoves);
@@ -105,7 +105,7 @@ function trackMoves() {
 
 
 /**
-* @description if there's a match, lock the cards into open position
+ * @description if there's a match, lock the cards into open position
  */
 function lockCards() {
   $('.deck').find('.open').toggleClass('match open show');
@@ -113,7 +113,7 @@ function lockCards() {
 
 
 /**
-* @description if there's no match, flip the cards back over
+ * @description if there's no match, flip the cards back over
  */
 function clearCards() {
   $('.deck').find('.open').toggleClass('open show');
@@ -142,7 +142,7 @@ function seeIfMatch(arr) {
 /**
  * @description adds current card to list of open cards and triggers counter functions
  * @returns {array} openList - list of open cards
-*/
+ */
 function updateOpenList() {
   const iconHTML = $that.html();
   openList.push(iconHTML);
@@ -160,8 +160,8 @@ function updateOpenList() {
 
 
 /**
-* @description reactivates the first click on a card to start the timer
-*/
+ * @description reactivates the first click on a card to start the timer
+ */
 function letTimerRestart() {
   $('.deck').one('click', '.card', startTimer);
 }
@@ -169,7 +169,7 @@ function letTimerRestart() {
 
 /**
  * @description restarts the game, via refresh icon or replay button in modal
-*/
+ */
 function reset() {
   // reset timer
   stopTimer();
@@ -195,7 +195,7 @@ function reset() {
 
 /**
  * @description when user wins the game, the modal pops up with user stats
-*/
+ */
 function winModal() {
   const clockStatus = $('.clock').html();
   $('.modal').toggleClass('hide');
@@ -207,8 +207,8 @@ function winModal() {
 
 
 /**
-* @description checks if all the cards are matching and triggers win function
-*/
+ * @description checks if all the cards are matching and triggers win function
+ */
 function checkIfWinner() {
   if (matchedDeck === 16) {
     stopTimer();
@@ -219,8 +219,8 @@ function checkIfWinner() {
 
 
 /**
-* @description when card is clicked on, it opens and triggers other functions
-*/
+ * @description when card is clicked on, it opens and triggers other functions
+ */
 function cardClicked() {
   $that = $(this);
   // show the contents of the card
@@ -256,8 +256,8 @@ $('.replay').on('click', function () {
 
 
 /**
-* @description arrow icon takes user back to top of page
-*/
+ * @description arrow icon takes user back to top of page
+ */
 $('.back-to-top').on('click', 'i', function () {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
