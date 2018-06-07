@@ -14,20 +14,20 @@ var $that = "";
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+  }
+  return array;
 }
 
 
 /**
- * @description builds the html for the deck grid and assigns card types
+ * @description build the html for the deck grid and assign cards
  * @param {array} cardDeck - list of card types
  */
 function buildDeck(cardDeck) {
@@ -66,7 +66,7 @@ function timer() {
 
 
 /**
- * @description updates the star icons on gameboard and also in modal
+ * @description update the star icons on gameboard and also in modal
  * @param {int} num - the star rating (1-3)
  */
 function starUpdate(num) {
@@ -85,7 +85,7 @@ function starUpdate(num) {
 
 
 /**
- * @description shows user the number of moves made and updates star rating
+ * @description show user the number of moves made and update star rating
  */
 function trackMoves() {
   // update html with the number of moves made so far
@@ -140,7 +140,7 @@ function seeIfMatch(arr) {
 
 
 /**
- * @description adds current card to list of open cards and triggers counter functions
+ * @description add current card to list of open cards and trigger counter functions
  * @returns {array} openList - list of open cards
  */
 function updateOpenList() {
@@ -160,7 +160,7 @@ function updateOpenList() {
 
 
 /**
- * @description reactivates the first click on a card to start the timer
+ * @description let the first click on a card start the timer
  */
 function letTimerRestart() {
   $('.deck').one('click', '.card', startTimer);
@@ -168,7 +168,7 @@ function letTimerRestart() {
 
 
 /**
- * @description restarts the game, via refresh icon or replay button in modal
+ * @description restart the game, via refresh icon or replay button in modal
  */
 function reset() {
   // reset timer
@@ -180,15 +180,15 @@ function reset() {
   // reset star rating
   starRating = 3;
   starUpdate(3);
-  // reset Win condition
+  // reset win condition
   matchedDeck = 0;
-  // remove the old cards, shuffle, and rebuild the card deck
+  // clear game board, shuffle cards, and rebuild the deck
   $('.deck').empty();
   shuffle(cardDeck);
   buildDeck(cardDeck);
-  // clear openList in case something was in there
+  // empty list of open cards in case something was still in there
   openList = [];
-  // reactivate the first card clicked to start the timer
+  // reactivate timer starting on the next card click
   letTimerRestart();
 }
 
@@ -207,7 +207,7 @@ function winModal() {
 
 
 /**
- * @description checks if all the cards are matching and triggers win function
+ * @description check if all the cards are matching and trigger win function
  */
 function checkIfWinner() {
   if (matchedDeck === 16) {
@@ -232,7 +232,7 @@ function cardClicked() {
 }
 
 
-// once the html loads, shuffle the cards and build the grid
+// once the page loads, shuffle the cards and build the deck
 document.addEventListener('DOMContentLoaded', function () {
   shuffle(cardDeck);
   buildDeck(cardDeck);
